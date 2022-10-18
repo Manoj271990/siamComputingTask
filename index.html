@@ -3,6 +3,7 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="logic.js"></script>
     </head>
     <body>
@@ -10,8 +11,34 @@
             <div class="" id="main-container">
                 
             </div>
-           
-      
-       
+            
+            <div class="modal" id="modal-overlay">
+               <div class="modal-layer">
+                   <div class="close-btn" onclick="closeModal()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                   </div>
+                   <div class="prev" onclick="prevNextLoadImage('prev')">
+                    <i class="fa fa-angle-left" style="font-size:48px;color:white"></i>
+                   </div>
+                   <div class="next" onclick="prevNextLoadImage('next')">
+                    <i class="fa fa-angle-right" style="font-size:48px;color:white"></i>
+                   </div>
+                   <div class="modal-content">
+                       
+                       <div class="title-section">
+
+                       </div>
+                       <div class="modal-tiles">
+                            <div class="inner-content-section">
+                                <img src="" id="modal-image"/>
+                            </div>
+                        </div>
+                   </div>
+                </div>
+
+            </div>
     </body>
 </html>
+
+
+
