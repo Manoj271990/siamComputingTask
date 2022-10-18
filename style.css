@@ -1,0 +1,37 @@
+
+  #main-container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(400px,1fr));
+    grid-auto-rows: 0;
+  }
+
+  .parent-image-items{
+    border-radius: 5px;
+  }
+
+  .parent-image-items {
+     border-radius: 5px;
+     overflow: hidden;
+     padding: 10px;
+  }
+
+  .parent-image-items,.parent-image-items img {
+     position: relative;
+  }
+
+  .parent-image-items img {
+      width: 100%;
+  }
+
+  .parent-image-items:after {
+    position: absolute;
+    top: 0;
+    left: 0; 
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    transition: all .1s ease-in;
+  }
