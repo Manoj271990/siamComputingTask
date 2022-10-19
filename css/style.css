@@ -156,7 +156,7 @@
     }
 
     .butn-0 .sub_0 {
-        background-image: url("./images/add.png");
+        background-image: url("../images/add.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
         width: 15px;
@@ -164,7 +164,7 @@
     }
 
     .butn-1 .sub_1 {
-        background-image: url("./images/like.png");
+        background-image: url("../images/like.png");
         width: 15px;
         height: 15px;
         background-size: 100% 100%;
@@ -172,7 +172,7 @@
     }
 
     .butn-2 .sub_2 {
-        background-image: url("./images/download.png");
+        background-image: url("../images/download.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
         width: 15px;
