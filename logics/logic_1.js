@@ -32,12 +32,11 @@ var loadDynamicImage=function(jsonData){
 var createDynamicImage=function(){
     
     imageArray.forEach((value,index)=>{
-    
             createFigureImage=document.createElement("div")
             createFigureImage.id="parent-image_"+index;
             createFigureImage.className="parent-image-items image_"+index;
-            createFigureImage.setAttribute("data-likes",value.likes);
-            createFigureImage.setAttribute("data-user",value.user.username);
+            createFigureImage.setAttribute("data-likes",jsonDataArray[0].likes);
+            createFigureImage.setAttribute("data-user",jsonDataArray[0].user.username);
 
             //create Image  Element using create Element
             createDynamicImageDiv=document.createElement("img"); 
