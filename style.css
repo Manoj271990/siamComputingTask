@@ -54,16 +54,17 @@
       position: relative;
       width: 100%;
       height: 100%;
+      overflow: auto;
   }
   .modal-content {
     background: white;
     width: 60%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    height: 80%;
+    transform: translate(0,0);
     padding: 15px;
+    vertical-align: middle;
+    position: relative;
+    margin: 30px auto;
+    text-align: left;
   }
 
    .modal-tiles{
@@ -79,8 +80,10 @@
    }
 
    #modal-image {
-       width: 100%;
-       height: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
    }
 
    .prev {
@@ -112,45 +115,7 @@
        color: #fff;
        font-size: 21px;
        font-weight: normal;
-   }
-
-   @media only screen and (max-width: 992px) {
-
-    #main-container {
-        grid-template-columns: repeat(var(--columns),minmax(0,1fr));
-        grid-auto-rows: 0;
-        --columns: 2;
-      }
-   }
-
-   @media only screen and (max-width: 600px) {
-        .modal-content {
-            width: 50%;
-            height: auto;
-        }
-
-        .prev {
-            top: 50%;
-            left: 55px;
-            transform: translate(0%,0%);
-        }
-        
-        .next {
-        top: 50%;
-        right: 55px;
-        transform: translate(0%,0%);
-        }
-
-        #main-container {
-            grid-template-columns: repeat(var(--columns),minmax(0,1fr));
-            grid-auto-rows: 0;
-            --columns: 1;
-        }
-
-        .parent-image-items {
-            padding: 10px;
-            padding-right: 10px;
-         }
+       cursor: pointer;
    }
 
    .container{
@@ -225,7 +190,93 @@
     }
     .loader{
         position: absolute;
-        top: 45%;
-        left: 45%;
-        transform: translate(50%, 10px);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }  
+
+    .meta-data-section {
+        display: flex;
+        width: 100%;
+    }
+
+    .likes {
+        width: 20%;
+    }
+
+    .downloads{
+        width: 20%;
+    }
+    .meta-data-section p:first-child{
+        color: gray;
+    }
+
+    .meta-data-section p:nth-child(2){
+        margin-top: 5px;
+    }
+    .user-logo{
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: table-cell;
+    }
+    #user-section{
+        display: table;
+    }
+    #user-name{
+        display: table-cell;
+        vertical-align: middle;
+        padding-left: 15px;
+    }
+    .title-section{
+        margin-bottom: 20px;
+    }
+
+    @media only screen and (max-width: 992px) {
+
+        #main-container {
+            grid-template-columns: repeat(var(--columns),minmax(0,1fr));
+            grid-auto-rows: 0;
+            --columns: 2;
+          }
+       }
+    
+       @media only screen and (max-width: 600px) {
+            .likes {
+                width: 50%;
+            }
+    
+            .downloads{
+                width: 50%;
+            }
+            #modal-image{
+                width: 100%;
+            }
+            .modal-content {
+                width: 50%;
+                height: auto;
+            }
+    
+            .prev {
+                top: 50%;
+                left: 55px;
+                transform: translate(0%,0%);
+            }
+            
+            .next {
+            top: 50%;
+            right: 55px;
+            transform: translate(0%,0%);
+            }
+    
+            #main-container {
+                grid-template-columns: repeat(var(--columns),minmax(0,1fr));
+                grid-auto-rows: 0;
+                --columns: 1;
+            }
+    
+            .parent-image-items {
+                padding: 10px;
+                padding-right: 10px;
+             }
+       }

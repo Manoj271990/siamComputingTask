@@ -25,7 +25,8 @@ var loadDynamicImage=function(jsonData){
         createFigureImage=document.createElement("div")
         createFigureImage.id="parent-image_"+ind;
         createFigureImage.className="parent-image-items image_"+ind;
-
+        createFigureImage.setAttribute("data-likes",value.likes);
+        createFigureImage.setAttribute("data-user",value.user.username);
         //create Image  Element using create Element
         createDynamicImageDiv=document.createElement("img"); 
         createDynamicImageDiv.id="image_"+ind;
@@ -106,6 +107,10 @@ var openModal=function(currentImage){
         document.querySelector(".next").classList.remove('disabled');
      }
      document.getElementById("modal-image").setAttribute("src",currentImage.target.getAttribute("src"));
+     document.getElementById("view-list").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-likes");
+     document.getElementById("download-list").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-likes");
+     document.getElementById("user-name").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-user");
+     document.getElementById("logo-id").style.backgroundImage="url("+currentImage.target.getAttribute("src")+")";
 }
 
 function ajax_get(url, callback) {
@@ -152,7 +157,6 @@ function ajax_get(url, callback) {
   }
 
 var prevNextLoadImage=function(getNavigation){
-    console.log(document.getElementsByClassName('parent-image-items').length-1);
  
     if(getNavigation=="prev"){
         pageCount--;
@@ -179,5 +183,7 @@ var prevNextLoadImage=function(getNavigation){
     }
 
     document.getElementById("modal-image").setAttribute("src",document.getElementById("image_"+pageCount).getAttribute("src"));
+    document.getElementById("view-list").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-likes");
+    document.getElementById("user-name").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-user");
+    document.getElementById("logo-id").style.backgroundImage="url("+document.getElementById("image_"+pageCount).getAttribute("src")+")";
 }
-  
