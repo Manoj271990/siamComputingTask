@@ -89,6 +89,7 @@
     top: 50%;
     left: 55px;
     transform: translate(-50%,-50%);
+    cursor: pointer;
    }
 
    .next {
@@ -97,6 +98,7 @@
     top: 50%;
     right: 55px;
     transform: translate(-50%,-50%);
+    cursor: pointer;
    }
 
    .disabled{
