@@ -1,14 +1,16 @@
 //gloablVariables
-var createDynamicImageDiv, createFigureImage, pageCount=0, jsonDataArray=[];
+var createDynamicImageDiv, createFigureImage,createbottomPanel,createbottomPanelSub, pageCount=0, jsonDataArray=[];
 
 window.onload=function(){
-    
-    ajax_get('https://api.unsplash.com/photos/?client_id=7sJ04_uYW3y-Yg85QThOBs5QkBMY41MxW1KQdy6EMxc', function(data) {
-    loadDynamicImage(data);
-    setTimeout(function(){waitForImages()},1000);
-   });
 
-   
+    ajax_get('https://api.unsplash.com/photos/?client_id=7sJ04_uYW3y-Yg85QThOBs5QkBMY41MxW1KQdy6EMxc', function(data) {
+    
+    loadDynamicImage(data);
+
+
+    }); 
+
+
 }
 
 var closeModal=function(){
@@ -18,25 +20,43 @@ var closeModal=function(){
 var loadDynamicImage=function(jsonData){
     jsonDataArray=jsonData;
     jsonData.map(function(value,ind){
+        //create Image Parent Element
         createFigureImage=document.createElement("div")
         createFigureImage.id="parent-image_"+ind;
         createFigureImage.className="parent-image-items image_"+ind;
 
-
+        //create Image  Element
         createDynamicImageDiv=document.createElement("img"); 
         createDynamicImageDiv.id="image_"+ind;
         createDynamicImageDiv.className="image-items image_"+ind;
-
         createDynamicImageDiv.setAttribute("src",value.urls["raw"]);
+        
+        // create bottom panel 
+        createbottomPanel=document.createElement("div");
+        createbottomPanel.className="bottom-panel";
+
+        //create bottom panel sub division
+        createbottomPanel=document.createElement("div");
+        createbottomPanel.className="bottom-panel";
+
         document.getElementById("main-container").appendChild(createFigureImage);
-        document.getElementById("parent-image_"+ind).appendChild(createDynamicImageDiv);
+        document.getElementById("parent-image_"+ind).appendChild(createDynamicImageDiv);  
         createDynamicImageDiv.addEventListener("click",function(event){
             openModal(event);
         })
-
+        setTimeout(function(){   
+            totaltilesGrid();
+            showContainer();           
+        },1800);
     })
 }
 
+var showContainer=function(){
+    setTimeout(function(){
+        document.querySelector(".container").style.opacity="1";
+    },5000);
+    
+}
 var openModal=function(currentImage){
     document.getElementById("modal-overlay").style.display="inline-block";
     document.querySelector("body").style.overflow="hidden";
@@ -75,7 +95,7 @@ function ajax_get(url, callback) {
     xmlhttp.send();
 }
 
- function resizeMasonryItem(item){
+ function resizeImageGrid(item){
 
     var grid = document.getElementById('main-container'),
     rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap')),
@@ -83,35 +103,24 @@ function ajax_get(url, callback) {
     var ImageElement=item.getAttribute("id").split("_");
     var rowSpan = Math.ceil((document.getElementById("image_"+ImageElement[1]).getBoundingClientRect().height+rowGap)/(rowHeight+rowGap));
     item.style.gridRowEnd = 'span '+rowSpan;
-    document.getElementById("image_"+ImageElement[1]).style.height = rowSpan * 10 + "px";
+    if(window.innerWidth>575){
+        item.style.gridRowEnd = 'span '+rowSpan;
+        document.getElementById("image_"+ImageElement[1]).style.height = rowSpan * 10 + "px";
+    }   
   }
- 
-  function resizeAllMasonryItems(){
-    // Get all item class objects in one list
-    var allItems = document.getElementsByClassName('parent-image-items');
-
-    for(var i=0;i>allItems.length;i++){
-        var item = document.getElementById('parent-image_'+i);
-        resizeMasonryItem(item);
-    }
-  }
-
   
-  function waitForImages() {
+  var totaltilesGrid=function() {
     var allItems = document.getElementsByClassName('parent-image-items');
     console.log(allItems.length);
     for(var i=0;i<allItems.length;i++){
         var item = document.getElementById('parent-image_'+i);
-        resizeMasonryItem(item);
+        resizeImageGrid(item);
     }
   }
   
-
-  var masonryEvents = ['load', 'resize'];
-    masonryEvents.forEach( function(event) {
-    window.addEventListener(event, resizeAllMasonryItems);
-  } );
-  
+  window.onresize=function(){
+    totaltilesGrid();
+  }
 
 var prevNextLoadImage=function(getNavigation){
     console.log(document.getElementsByClassName('parent-image-items').length-1);
