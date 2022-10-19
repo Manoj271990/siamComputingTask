@@ -126,7 +126,9 @@
    @media only screen and (max-width: 600px) {
         .modal-content {
             width: 50%;
+            height: auto;
         }
+
         .prev {
             top: 50%;
             left: 55px;
@@ -153,7 +155,12 @@
 
    .container{
        width: 100%;
+       
    }
+
+    body{
+        overflow: hidden;
+    }
 
    .bottom-panel-sub {
     background: #fff;
@@ -206,3 +213,19 @@
         width: 15px;
         height: 15px;
     }
+
+    .globalLoader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        background: rgb(203 200 200 / 50%);
+    }
+    .loader{
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        transform: translate(50%, 10px);
+    }  

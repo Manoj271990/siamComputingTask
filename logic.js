@@ -83,7 +83,9 @@ var onmouseEnter=function(getCurrentTiles){
 var showContainer=function(){
     setTimeout(function(){
         document.querySelector(".container").style.opacity="1";
-    },5000);
+        document.querySelector("body").style.overflowY="auto";
+        document.querySelector(".globalLoader").style.display="none";
+    },4000);
     
 }
 var openModal=function(currentImage){
