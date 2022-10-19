@@ -15,6 +15,7 @@ window.onload=function(){
 
 var closeModal=function(){
     document.getElementById("modal-overlay").style.display="none";
+    document.querySelector("body").style.overflowY="auto";
 }
 
 var loadDynamicImage=function(jsonData){
@@ -90,7 +91,7 @@ var showContainer=function(){
 }
 var openModal=function(currentImage){
     document.getElementById("modal-overlay").style.display="inline-block";
-    document.querySelector("body").style.overflow="hidden";
+    document.querySelector("body").style.overflowY="hidden";
     var getID=currentImage.target.id;
      var splitId=getID.split("_");
      pageCount=parseInt(splitId[1]);
