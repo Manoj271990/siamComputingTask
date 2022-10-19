@@ -65,6 +65,7 @@
     position: relative;
     margin: 30px auto;
     text-align: left;
+    border-radius: 5px;
   }
 
    .modal-tiles{
@@ -179,6 +180,14 @@
         height: 15px;
     }
 
+    .likes-download-section .butn-0 ,.likes-download-section .butn-1 {
+        border: 1px solid #bdbdbd;
+    }
+
+    .likes-download-section .butn-1 {
+        right: 60px;
+    }
+
     .globalLoader {
         position: fixed;
         top: 0;
@@ -209,17 +218,30 @@
     }
     .meta-data-section p:first-child{
         color: gray;
+        margin-bottom: 5px;
+    }
+
+    .meta-data-description{
+        color: gray;
+        font-size: 15px;
+    }
+
+    .meta-data-description p{
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     .meta-data-section p:nth-child(2){
-        margin-top: 5px;
+        margin-top: 5px;      
     }
+
     .user-logo{
         border-radius: 50%;
         width: 40px;
         height: 40px;
         display: table-cell;
     }
+
     #user-section{
         display: table;
     }
@@ -228,6 +250,7 @@
         vertical-align: middle;
         padding-left: 15px;
     }
+
     .title-section{
         margin-bottom: 20px;
     }
@@ -259,14 +282,14 @@
     
             .prev {
                 top: 50%;
-                left: 55px;
+                left: 15px;
                 transform: translate(0%,0%);
             }
             
             .next {
-            top: 50%;
-            right: 55px;
-            transform: translate(0%,0%);
+                top: 50%;
+                right: 15px;
+                transform: translate(0%,0%);
             }
     
             #main-container {
