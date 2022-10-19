@@ -121,6 +121,8 @@ var openModal=function(currentImage){
      document.getElementById("view-list").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-likes");
      document.getElementById("download-list").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-likes");
      document.getElementById("user-name").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-user");
+     document.getElementById("published-on").innerText="Published On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-publishDate"));
+     document.getElementById("updated-on").innerText="Updated On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-updatedDate"));
      document.getElementById("logo-id").style.backgroundImage="url("+currentImage.target.getAttribute("src")+")";
 }
 
@@ -198,6 +200,8 @@ var prevNextLoadImage=function(getNavigation){
     document.getElementById("modal-image").setAttribute("src",document.getElementById("image_"+pageCount).getAttribute("src"));
     document.getElementById("view-list").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-likes");
     document.getElementById("user-name").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-user");
+    document.getElementById("published-on").innerText="Published On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-publishDate"));
+    document.getElementById("updated-on").innerText="Updated On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-updatedDate")); 
     document.getElementById("logo-id").style.backgroundImage="url("+document.getElementById("image_"+pageCount).getAttribute("src")+")";
 }
   
