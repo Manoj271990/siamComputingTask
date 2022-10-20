@@ -26,7 +26,7 @@ var loadDynamicImage=function(jsonData){
         createFigureImage.id="parent-image_"+ind;
         createFigureImage.className="parent-image-items image_"+ind;
         createFigureImage.setAttribute("data-likes",value.likes);
-        createFigureImage.setAttribute("data-user",value.user.username);
+        createFigureImage.setAttribute("data-user",value.user.name);
         createFigureImage.setAttribute("data-publishDate",value.created_at);
         createFigureImage.setAttribute("data-updatedDate",value.updated_at);
 
