@@ -1,12 +1,21 @@
 //gloablVariables
 var createDynamicImageDiv, createFigureImage,createbottomPanel,createbottomPanelSub, pageCount=0, jsonDataArray=[];
 
-window.onload=function(){
 
+
+
+$(document).ready(function(){
     ajax_get('https://api.unsplash.com/photos/?client_id=7sJ04_uYW3y-Yg85QThOBs5QkBMY41MxW1KQdy6EMxc', function(data) {   
     loadDynamicImage(data);
     }); 
-}
+})
+
+$(window).on('load', function () {
+    setTimeout(function(){   
+        totaltilesGrid();
+        showContainer();           
+    },1800);
+});
 
 var closeModal=function(){
     document.getElementById("modal-overlay").style.display="none";
@@ -19,18 +28,7 @@ var loadDynamicImage=function(jsonData){
         //create Image Parent Element
         $("<div class='parent-image-items image_"+ind+"' id='parent-image_"+ind+"' data-likes="+value.likes+" data-user="+value.user.name+" data-publishDate="+value.created_at+" data-updatedDate="+value.updated_at+"></div>").appendTo("#main-container");
 
-        var createsubImageSections=document.createElement("div");
-        createsubImageSections.className="image-parent ss-img_"+ind;
-        createsubImageSections.id="sub-ss-img_"+ind;
-
-        //create Image  Element using create Element
-        createDynamicImageDiv=document.createElement("img"); 
-        createDynamicImageDiv.id="image_"+ind;
-        createDynamicImageDiv.className="image-items image_"+ind;
-        createDynamicImageDiv.setAttribute("src",value.urls["raw"]);   
-        
-        document.getElementById("parent-image_"+ind).appendChild(createsubImageSections);  
-        document.getElementById("sub-ss-img_"+ind).appendChild(createDynamicImageDiv);
+        $("<div class='image-parent ss-img_"+ind+"' id='sub-ss-img_"+ind+"'><img class='image-items image_"+ind+"' id='image_"+ind+"' src="+value.urls["raw"]+"/></div>").appendTo("#parent-image_"+ind);  
 
         $("#parent-image_"+ind).append("<div class='bottom-button-container' id='btn-cont_"+ind+"'></div>"); 
 
@@ -57,18 +55,14 @@ var loadDynamicImage=function(jsonData){
           
         });
 
-        createDynamicImageDiv.addEventListener("mouseout",function(event){
+        $(".image-items").on("mouseout",function(event){
             onmouseLeave(event);
          });
         
 
     })
-
-    setTimeout(function(){   
-        totaltilesGrid();
-        showContainer();           
-    },1800);
 }
+
 
 var onmouseLeave=function(getCurrentTiles){
     var elems = getCurrentTiles.target.parentElement.id;
@@ -89,15 +83,15 @@ var onmouseEnter=function(getCurrentTiles){
 }
 var showContainer=function(){
     setTimeout(function(){
-        document.querySelector(".container").style.opacity="1";
-        document.querySelector("body").style.overflowY="auto";
-        document.querySelector(".globalLoader").style.display="none";
+        $(".container").css('opacity','1');
+        $("body").css('overflow-y','auto');
+        $(".globalLoader").hide();
     },4000);
     
 }
 var openModal=function(currentImage){
-    document.getElementById("modal-overlay").style.display="inline-block";
-    document.querySelector("body").style.overflowY="hidden";
+    $("#modal-overlay").show();
+    $("body").css('overflow-y','hidden');
     var getID=currentImage.target.id;
      var splitId=getID.split("_");
      pageCount=parseInt(splitId[1]);
@@ -112,16 +106,16 @@ var openModal=function(currentImage){
         $(".next").removeClass('disabled');
      }
      $("#modal-image").attr("src",currentImage.target.getAttribute("src"));
-     $("#view-list").text(document.getElementById("parent-image_"+pageCount).getAttribute("data-likes"));
-     $("#download-list").text(document.getElementById("parent-image_"+pageCount).getAttribute("data-likes"));
-     $("#user-name").text(document.getElementById("parent-image_"+pageCount).getAttribute("data-user"));
-     $("#published-on").text("Published On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-publishDate")));
+     $("#view-list").text($("#parent-image_"+pageCount).attr("data-likes"));
+     $("#download-list").text($("#parent-image_"+pageCount).attr("data-likes"));
+     $("#user-name").text($("#parent-image_"+pageCount).attr("data-user"));
+     $("#published-on").text("Published On "+new Date($("#parent-image_"+pageCount).attr("data-publishDate")));
 
-     document.getElementById("updated-on").innerText="Updated On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-updatedDate"));
-     document.getElementById("logo-id").style.backgroundImage="url("+currentImage.target.getAttribute("src")+")";
+     $("#updated-on").text("Updated On "+new Date($("#parent-image_"+pageCount).attr("data-updatedDate")));
+     $("#logo-id").css('background-image',"url("+currentImage.target.getAttribute("src")+")");
 }
 
-function ajax_get(url, callback) {
+var ajax_get=function(url, callback) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -140,7 +134,7 @@ function ajax_get(url, callback) {
     xmlhttp.send();
 }
 
- function resizeImageGrid(item){
+ var resizeImageGrid=function (item){
 
     var grid = document.getElementById('main-container'),rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap')),
     rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
@@ -204,9 +198,9 @@ var prevNextLoadImage=function(getNavigation){
 
     $("#modal-image").attr("src",$("#image_"+pageCount).attr("src"));
     $("#view-list").text($("#parent-image_"+pageCount).attr("data-likes"));
-    $("#user-name").text($("#parent-image_"+pageCount).data("user"));
+    $("#user-name").text($("#parent-image_"+pageCount).attr("user"));
 
-    document.getElementById("published-on").innerText="Published On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-publishDate"));
-    document.getElementById("updated-on").innerText="Updated On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-updatedDate")); 
-    document.getElementById("logo-id").style.backgroundImage="url("+document.getElementById("image_"+pageCount).getAttribute("src")+")";
+    $("#published-on").text("Published On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-publishDate")));
+    $("#updated-on").text("Updated On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-updatedDate"))); 
+    $("#logo-id").css('background',"url("+document.getElementById("image_"+pageCount).getAttribute("src")+")");
 }
