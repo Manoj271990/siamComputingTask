@@ -3,14 +3,9 @@ var createDynamicImageDiv, createFigureImage,createbottomPanel,createbottomPanel
 
 window.onload=function(){
 
-    ajax_get('https://api.unsplash.com/photos/?client_id=7sJ04_uYW3y-Yg85QThOBs5QkBMY41MxW1KQdy6EMxc', function(data) {
-    
+    ajax_get('https://api.unsplash.com/photos/?client_id=7sJ04_uYW3y-Yg85QThOBs5QkBMY41MxW1KQdy6EMxc', function(data) {   
     loadDynamicImage(data);
-
-
     }); 
-
-
 }
 
 var closeModal=function(){
@@ -22,13 +17,7 @@ var loadDynamicImage=function(jsonData){
     jsonDataArray=jsonData;
     jsonData.map(function(value,ind){
         //create Image Parent Element
-        createFigureImage=document.createElement("div");
-        createFigureImage.id="parent-image_"+ind;
-        createFigureImage.className="parent-image-items image_"+ind;
-        createFigureImage.setAttribute("data-likes",value.likes);
-        createFigureImage.setAttribute("data-user",value.user.name);
-        createFigureImage.setAttribute("data-publishDate",value.created_at);
-        createFigureImage.setAttribute("data-updatedDate",value.updated_at);
+        $("<div class='parent-image-items image_"+ind+"' id='parent-image_"+ind+"' data-likes="+value.likes+" data-user="+value.user.name+" data-publishDate="+value.created_at+" data-updatedDate="+value.updated_at+"></div>").appendTo("#main-container");
 
         var createsubImageSections=document.createElement("div");
         createsubImageSections.className="image-parent ss-img_"+ind;
@@ -38,23 +27,16 @@ var loadDynamicImage=function(jsonData){
         createDynamicImageDiv=document.createElement("img"); 
         createDynamicImageDiv.id="image_"+ind;
         createDynamicImageDiv.className="image-items image_"+ind;
-        createDynamicImageDiv.setAttribute("src",value.urls["raw"]);
-
-        var butnContainer=document.createElement("div");
-        butnContainer.className="bottom-button-container";
-        butnContainer.id="btn-cont_"+ind;
-    
-        document.getElementById("main-container").appendChild(createFigureImage);
+        createDynamicImageDiv.setAttribute("src",value.urls["raw"]);   
+        
         document.getElementById("parent-image_"+ind).appendChild(createsubImageSections);  
-        document.getElementById("sub-ss-img_"+ind).appendChild(createDynamicImageDiv); 
-        document.getElementById("parent-image_"+ind).appendChild(butnContainer); 
+        document.getElementById("sub-ss-img_"+ind).appendChild(createDynamicImageDiv);
+
+        $("#parent-image_"+ind).append("<div class='bottom-button-container' id='btn-cont_"+ind+"'></div>"); 
 
         //create bottom panel sub division using innerHTML
         for(var i=0;i<3;i++){
-            var innerCreatebottomPanel=document.createElement("div");
-            innerCreatebottomPanel.className="bottom-panel-sub butn-"+i;
-            innerCreatebottomPanel.innerHTML="<div class='sub_"+i+"'></div>"
-            document.getElementById("sub-ss-img_"+ind).appendChild(innerCreatebottomPanel);         
+            $("<div class='bottom-panel-sub butn-"+i+"'><div class='sub_"+i+"'></div></div>").appendTo("#sub-ss-img_"+ind);   
         }
 
 
@@ -65,14 +47,17 @@ var loadDynamicImage=function(jsonData){
             innerCreateDescrbottomPanel.innerHTML="Wall Papers"
             document.getElementById("btn-cont_"+ind).appendChild(innerCreateDescrbottomPanel);         
         }
-        createDynamicImageDiv.addEventListener("click",function(event){
+
+        $(".image-items").on("click",function(event){
             openModal(event);
         });
-        createDynamicImageDiv.addEventListener("mouseenter",function(event){
+
+        $(".image-items").on("mouseover",function(event){
            onmouseEnter(event);
           
         });
-        createDynamicImageDiv.addEventListener("mouseleave",function(event){
+
+        createDynamicImageDiv.addEventListener("mouseout",function(event){
             onmouseLeave(event);
          });
         
@@ -87,21 +72,19 @@ var loadDynamicImage=function(jsonData){
 
 var onmouseLeave=function(getCurrentTiles){
     var elems = getCurrentTiles.target.parentElement.id;
-    var siblingsElement=document.getElementById(elems).querySelectorAll(".bottom-panel-sub");
+    var siblingsElement=$("#"+elems).find(".bottom-panel-sub");
     var index = 0, length = siblingsElement.length;
     for ( ; index < length; index++) {
-        document.getElementById(elems).querySelector(".butn-"+index).style.transition = "opacity 0.5s linear 0s";
-        document.getElementById(elems).querySelector(".butn-"+index).style.opacity = 0;
+        $("#"+elems).find(".butn-"+index).css({"transition":"opacity 0.5s linear 0s","opacity":"0"});
     }
 }
 
 var onmouseEnter=function(getCurrentTiles){
     var elems = getCurrentTiles.target.parentElement.id;
-    var siblingsElement=document.getElementById(elems).querySelectorAll(".bottom-panel-sub");
+    var siblingsElement=$("#"+elems).find(".bottom-panel-sub");
     var index = 0, length = siblingsElement.length;
     for ( ; index < length; index++) {
-        document.getElementById(elems).querySelector(".butn-"+index).style.transition = "opacity 0.5s linear 0s";
-        document.getElementById(elems).querySelector(".butn-"+index).style.opacity = 1;
+        $("#"+elems).find(".butn-"+index).css({"transition":"opacity 0.5s linear 0s","opacity":"1"});
     }
 }
 var showContainer=function(){
@@ -119,20 +102,21 @@ var openModal=function(currentImage){
      var splitId=getID.split("_");
      pageCount=parseInt(splitId[1]);
      if(pageCount==0){
-        document.querySelector(".prev").classList.add('disabled');
+        $(".prev").addClass('disabled');
      }
      else if(pageCount==document.getElementsByClassName('parent-image-items').length-1){
-        document.querySelector(".next").classList.add('disabled');
+        $(".next").addClass('disabled');
      }
      else{
-        document.querySelector(".prev").classList.remove('disabled');
-        document.querySelector(".next").classList.remove('disabled');
+        $(".prev").removeClass('disabled');
+        $(".next").removeClass('disabled');
      }
-     document.getElementById("modal-image").setAttribute("src",currentImage.target.getAttribute("src"));
-     document.getElementById("view-list").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-likes");
-     document.getElementById("download-list").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-likes");
-     document.getElementById("user-name").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-user");
-     document.getElementById("published-on").innerText="Published On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-publishDate"));
+     $("#modal-image").attr("src",currentImage.target.getAttribute("src"));
+     $("#view-list").text(document.getElementById("parent-image_"+pageCount).getAttribute("data-likes"));
+     $("#download-list").text(document.getElementById("parent-image_"+pageCount).getAttribute("data-likes"));
+     $("#user-name").text(document.getElementById("parent-image_"+pageCount).getAttribute("data-user"));
+     $("#published-on").text("Published On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-publishDate")));
+
      document.getElementById("updated-on").innerText="Updated On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-updatedDate"));
      document.getElementById("logo-id").style.backgroundImage="url("+currentImage.target.getAttribute("src")+")";
 }
@@ -160,32 +144,31 @@ function ajax_get(url, callback) {
 
     var grid = document.getElementById('main-container'),rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap')),
     rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
-    var ImageElement=item.getAttribute("id").split("_");
-    var rowSpan = Math.ceil((document.getElementById("image_"+ImageElement[1]).getBoundingClientRect().height)/(rowHeight+rowGap));
-    
-    console.log(parseInt(document.querySelector(".bottom-button-container").clientHeight) * (item.querySelectorAll(".bottom-panel-sub").length-1));
+    var ImageElement=item.attr("id").split("_");
+    var rowSpan = Math.ceil(($("#image_"+ImageElement[1]).get(0).getBoundingClientRect().height)/(rowHeight+rowGap));
+    var fixedImageHeight;
     
     if(window.innerWidth<575){
-        item.style.gridRowEnd = 'span '+parseInt(rowSpan+15);
-        var fixedImageHeight=Math.ceil((((document.getElementById("image_"+ImageElement[1]).getBoundingClientRect().height)+rowGap))/(rowGap));
+        $(item).css('gridRowEnd','span '+parseInt(rowSpan+15));
+        fixedImageHeight=Math.ceil(((($("#image_"+ImageElement[1]).get(0).getBoundingClientRect().height)+rowGap))/(rowGap));
         document.getElementById("sub-ss-img_"+ImageElement[1]).style.height = (fixedImageHeight * 10)+ "px";
     }
     else if(window.innerWidth<767){
-        item.style.gridRowEnd = 'span '+parseInt(rowSpan+14);
-        var fixedImageHeight=Math.ceil((((document.getElementById("image_"+ImageElement[1]).getBoundingClientRect().height)+rowGap))/(rowGap));
+        $(item).css('gridRowEnd','span '+parseInt(rowSpan+12));
+        fixedImageHeight=Math.ceil(((($("#image_"+ImageElement[1]).get(0).getBoundingClientRect().height)+rowGap))/(rowGap));
         document.getElementById("sub-ss-img_"+ImageElement[1]).style.height = (fixedImageHeight * 10)+ "px";
     }
     else {
-        item.style.gridRowEnd = 'span '+parseInt(rowSpan);
-        var fixedImageHeight=Math.ceil((((document.getElementById("image_"+ImageElement[1]).getBoundingClientRect().height)+rowGap)-(parseInt(document.querySelector(".bottom-button-container").clientHeight) * (item.querySelectorAll(".bottom-panel-sub").length-1)))/(rowGap));
+        $(item).css('gridRowEnd','span '+parseInt(rowSpan));
+        fixedImageHeight=Math.ceil(((($("#image_"+ImageElement[1]).get(0).getBoundingClientRect().height)+rowGap)-(parseInt(document.querySelector(".bottom-button-container").clientHeight) * (item.find(".bottom-panel-sub").length-1)))/(rowGap));
         document.getElementById("sub-ss-img_"+ImageElement[1]).style.height = (fixedImageHeight * 10)+ "px";
     }
   }
   
   var totaltilesGrid=function() {
-    let allItems = document.getElementsByClassName('parent-image-items');
+    let allItems = $('.parent-image-items');
     for(let i=0;i<allItems.length;i++){
-        let item = document.getElementById('parent-image_'+i);
+        let item = $('#parent-image_'+i);
         resizeImageGrid(item);
     }
   }
@@ -200,29 +183,29 @@ var prevNextLoadImage=function(getNavigation){
         pageCount--;
         if(pageCount==0){
             pageCount=0;
-            document.querySelector(".prev").classList.add('disabled');
+            $(".prev").addClass('disabled');
         }else{
             
-            document.querySelector(".prev").classList.remove('disabled');
-            document.querySelector(".next").classList.remove('disabled');
+            $(".prev").removeClass('disabled');
+            $(".next").removeClass('disabled');
         }
     }
     else {
         pageCount++;
-        if(pageCount==document.getElementsByClassName('parent-image-items').length-1){
-            pageCount=document.getElementsByClassName('parent-image-items').length-1;
-            document.querySelector(".next").classList.add('disabled')
+        if(pageCount==$('.parent-image-items').length-1){
+            pageCount=$('.parent-image-items').length-1;
+            $(".next").addClass('disabled');
             
         }else{           
-            document.querySelector(".prev").classList.remove('disabled');
-            document.querySelector(".next").classList.remove('disabled');
-            console.log(pageCount);
+            $(".prev").removeClass('disabled');
+            $(".next").removeClass('disabled');
         }
     }
 
-    document.getElementById("modal-image").setAttribute("src",document.getElementById("image_"+pageCount).getAttribute("src"));
-    document.getElementById("view-list").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-likes");
-    document.getElementById("user-name").innerText=document.getElementById("parent-image_"+pageCount).getAttribute("data-user");
+    $("#modal-image").attr("src",$("#image_"+pageCount).attr("src"));
+    $("#view-list").text($("#parent-image_"+pageCount).attr("data-likes"));
+    $("#user-name").text($("#parent-image_"+pageCount).data("user"));
+
     document.getElementById("published-on").innerText="Published On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-publishDate"));
     document.getElementById("updated-on").innerText="Updated On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-updatedDate")); 
     document.getElementById("logo-id").style.backgroundImage="url("+document.getElementById("image_"+pageCount).getAttribute("src")+")";
