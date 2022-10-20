@@ -157,7 +157,7 @@ function ajax_get(url, callback) {
   }
   
   window.onresize=function(){
-    totaltilesGrid();
+    //totaltilesGrid();
   }
 
 var prevNextLoadImage=function(getNavigation){
