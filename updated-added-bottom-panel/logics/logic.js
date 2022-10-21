@@ -1,16 +1,23 @@
 //gloablVariables
 var createDynamicImageDiv, createFigureImage,createbottomPanel,createbottomPanelSub, pageCount=0, jsonDataArray=[];
 
-
-
-
-$(document).ready(function(){
+$(window).on('load', function () {
+    //API using http request 
     ajax_get('https://api.unsplash.com/photos/?client_id=7sJ04_uYW3y-Yg85QThOBs5QkBMY41MxW1KQdy6EMxc', function(data) {   
     loadDynamicImage(data);
     }); 
-})
 
-$(window).on('load', function () {
+    //uncomment this to load - API using ajax
+    /*$.ajax({
+        type: 'GET',
+        url: 'https://api.unsplash.com/photos/?client_id=7sJ04_uYW3y-Yg85QThOBs5QkBMY41MxW1KQdy6EMxc',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            loadDynamicImage(data);
+        }
+    });*/
+
     setTimeout(function(){   
         totaltilesGrid();
         showContainer();           
@@ -200,7 +207,7 @@ var prevNextLoadImage=function(getNavigation){
     $("#view-list").text($("#parent-image_"+pageCount).attr("data-likes"));
     $("#user-name").text($("#parent-image_"+pageCount).attr("user"));
 
-    $("#published-on").text("Published On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-publishDate")));
-    $("#updated-on").text("Updated On "+new Date(document.getElementById("parent-image_"+pageCount).getAttribute("data-updatedDate"))); 
-    $("#logo-id").css('background',"url("+document.getElementById("image_"+pageCount).getAttribute("src")+")");
+    $("#published-on").text("Published On "+new Date($("parent-image_"+pageCount).attr("data-publishDate")));
+    $("#updated-on").text("Updated On "+new Date($("parent-image_"+pageCount).attr("data-updatedDate"))); 
+    $("#logo-id").css('background',"url("+$("image_"+pageCount).attr("src")+")");
 }
